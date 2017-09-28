@@ -13,7 +13,7 @@ from PIL import Image
 from firefly import Client
 
 app = Flask(__name__)
-# app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
+app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 
 API_ENDPOINT = "https://background-removal--api.rorocloud.io"
 
@@ -49,6 +49,9 @@ def predict():
 	else: 
 		return redirect(url_for('homepage'))
 
+@app.route('/works')
+def works():
+    return render_template('works.html')
 
 @app.route('/')
 def homepage():
