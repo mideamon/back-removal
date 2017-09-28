@@ -1,0 +1,6 @@
+flask
+Jinja2
+Werkzeug
+pillow
+gunicorn
+firefly-python
