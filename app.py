@@ -13,7 +13,7 @@ from PIL import Image
 from firefly import Client
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
+# app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 
 API_ENDPOINT = "https://background-removal--api.rorocloud.io"
 
@@ -29,7 +29,11 @@ def predict():
 
 		if(validator.scheme == 'http' or validator.scheme == 'https'):
 
-			img = Image.open(BytesIO(urllib.urlopen(img_url).read()))
+			try:
+				img = Image.open(BytesIO(urllib.urlopen(img_url).read()))
+			except:
+				message = "Could not retreive image, try another link"
+				return render_template('index.html', message=message)
 
 			# Send back the result image to the client
 			img_req = BytesIO()
@@ -41,6 +45,7 @@ def predict():
 
 			# Prepare response for display
 			encoded_image = base64.b64encode(img_resp.read()).decode('ascii')
+
 			return render_template('index.html', encoded_image=encoded_image)
 		else:
 			# Invalid URL handling
